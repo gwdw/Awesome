@@ -1,7 +1,7 @@
 class Pin < ActiveRecord::Base
   
   # Fields
-  attr_accessible :description, :image
+  attr_accessible :description, :image, :image_remote_url
   has_attached_file :image, styles: { medium: "320x240"}
 
   # Validations
@@ -12,4 +12,10 @@ class Pin < ActiveRecord::Base
   
   # Relationships
   belongs_to :user
+
+
+  def image_remote_url=(url_value)
+    self.image = URI.parse(url_value) unless url_value.blank?
+    super
+  end
 end
